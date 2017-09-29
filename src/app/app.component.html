@@ -1,9 +1,9 @@
 
-  <p-dataTable [value]="cars" [rowsPerPageOptions]="[10,15,20]" [pageLinks]="10"
+  <p-dataTable [value]="cars" [rowsPerPageOptions]="[3,10,15,20]" [pageLinks]="10"
        expandableRows="true"
        rowExpandMode="single"
        [paginator]="true"
-      [rows]="10" (onRowExpand)="onRowExpand($event)"
+      [rows]="3" (onRowExpand)="onRowExpand($event)"
       [rowTrackBy]="rowTrackBy"
       dataKey="vin"
       [loading]="true"
@@ -13,21 +13,23 @@
        [sortOrder]="1"
        [immutable]="true"
        >
+
+       <!-- im handling the immutablity -->
       <p-column expander="true" [style]="{'width':'40px'}"></p-column>
       <p-column field="vin" header="Vin" [sortable]="true"></p-column>
       <p-column field="year" header="Year" [sortable]="true"></p-column>
-      <p-column field="brand" header="Brand"></p-column>
+      <p-column field="brand" header="Brand" [sortable]="true"></p-column>
       <p-column field="color" header="Color"></p-column>
       <p-column field="action" header="Action" styleClass="col-button">
           <ng-template let-car="rowData" pTemplate="body">
               <button type="button" pButton (click)="selectCar(car)" icon="fa-search"></button>
           </ng-template>
       </p-column>
-      <ng-template let-car pTemplate="rowexpansion">
-          <app-simple [car]="car">
+      <ng-template  pTemplate="rowexpansion">
+          <app-simple [car]="selectedCar">
 
           </app-simple>
-          <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
+          <div *ngIf="false" class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
               <div class="ui-grid-row">
                   <div class="ui-grid-col-3" style="text-align:center">
                       <!--<img src="assets/showcase/images/demo/car/{{car.brand}}.png">-->

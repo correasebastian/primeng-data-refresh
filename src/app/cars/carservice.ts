@@ -369,6 +369,8 @@ export class CarService {
     // return this.http.get('src/app/resources/data/cars-medium.json')
     //             .map(res => <Car[]> res.json());
     return Observable.of(cars)
-    .map(data => [...data.data]);
+      .map(data => {
+        return [...data.data].slice(0, 9);
+      });
   }
 }

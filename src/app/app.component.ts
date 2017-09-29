@@ -52,8 +52,9 @@ export class AppComponent implements OnInit {
   }
 
   private getCars(old?) {
-    this.carService.getCarsMedium()
-      .subscribe(cars => {
+    const cars =[{"vin":"a1653d4d","brand":"VW", "year":1998,'color':'White','action':'print ticket'},{'vin':'ddeb9b10','brand':'Mercedes','year':1985,'color':'Green','action': 'print ticket'}, {'vin': 'd8ebe413', 'brand': 'Jaguar', 'year': 1979, 'color': 'Silver', 'action': 'print ticket'}, {'vin': 'aab227b7', 'brand': 'Audi', 'year': 1970, 'color': 'Black', 'action': 'print ticket'}, {'vin': '631f7412', 'brand': 'Volvo', 'year': 1992, 'color': 'Red', 'action': 'print ticket'}, {'vin': '7d2d22b0', 'brand': 'VW', 'year': 1993, 'color': 'Maroon', 'action': 'print ticket'}, {'vin': '50e900ca', 'brand': 'Fiat', 'year': 1964, 'color': 'Blue', 'action': 'print ticket'}, {'vin': '4bbcd603', 'brand': 'Renault', 'year': 1983, 'color': 'Maroon', 'action': 'print ticket'}, {'vin': '70214c7e', 'brand': 'Renault', 'year': 1961, 'color': 'Black', 'action': 'print ticket'}];
+    // this.carService.getCarsMedium()
+    //   .subscribe(cars => {
 
 
         // this.cars = cars;
@@ -71,29 +72,33 @@ export class AppComponent implements OnInit {
           // }, 0);
         } else {
           this.cars = cars;
+          console.table(cars);
         }
 
-      });
+      // });
   }
 
   magic(cars: Car[]) {
-
+debugger;
     // yo no llamaria al servicio de cars again, solo a actualizar uno y ya
 
     const [currentSelectedCar] = this.dataTable.expandedRows;
-    const newSelectedCar = Object.assign(currentSelectedCar, { color: 'hello world' });
+    const newSelectedCar = Object.assign({}, currentSelectedCar, { color: 'hello world' });
+    delete newSelectedCar.orderDetail;
     const index = this.cars.indexOf(currentSelectedCar);
     const newCars =  [
       ...this.cars.slice(0, index),
       newSelectedCar,
       ...this.cars.slice(index + 1)
     ];
+    // this.dataTable.expandedRows = [];
     this.dataTable.expandedRows = [newSelectedCar];
+    this.selectedCar = newSelectedCar;
     this.dataTable.value = newCars;
     console.table(cars);
     // setTimeout(() => {
-    // this.dataTable.sortField = 'year';
-    // this.dataTable.sortOrder = -1;
+    this.dataTable.sortField = 'brand';
+    this.dataTable.sortOrder = 1;
     this.dataTable.sortSingle();
     this.dataTable.onPageChange({ first: this.currentPage.first, rows: this.currentPage.rows });
   }
@@ -154,6 +159,7 @@ export class AppComponent implements OnInit {
     const car: Car = event.data;
     // this is going to simulate the call to the backend, and will add the order details
     car.orderDetail = Math.floor((Math.random() * 100) + 1);
+    this.selectedCar = car;
   }
 
   get expandedRows() {

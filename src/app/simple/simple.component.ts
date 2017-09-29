@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { Car } from '../cars/car';
 
 @Component({
   selector: 'app-simple',
   templateUrl: './simple.component.html',
-  styleUrls: ['./simple.component.css']
+  styleUrls: ['./simple.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SimpleComponent implements OnInit, OnChanges {
 
@@ -18,7 +19,8 @@ export class SimpleComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes', changes);
+    debugger;
+    console.log('changes on simple car', changes.car.currentValue);
   }
 
 
